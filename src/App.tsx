@@ -22,10 +22,21 @@ function App() {
           <PatternForm />
         </main>
 
-        <footer className="text-center mt-16 text-gray-500 text-sm">
+        <footer className="text-center mt-16 text-gray-500 text-sm space-y-3">
           <p>
             Print on A4 paper and cut twice to create A6 sheets for your custom
             blocknote
+          </p>
+          <p>
+            Need a matching cover? Download the 3D-printable A6 notebook model:{' '}
+            <a
+              href="https://www.printables.com/model/1436723-a6-printed-notebook"
+              target="_blank"
+              rel="noreferrer"
+              className="text-blue-600 hover:text-blue-700 underline"
+            >
+              printables.com/model/1436723-a6-printed-notebook
+            </a>
           </p>
         </footer>
       </div>
