@@ -5,6 +5,7 @@ import { drawPattern } from './patternGenerator';
 export interface GenerateOptions {
   numberOfPages: number;
   config: PatternConfig;
+  showCuttingRulers?: boolean;
 }
 
 export function generatePDF(options: GenerateOptions): jsPDF {
@@ -24,12 +25,14 @@ export function generatePDF(options: GenerateOptions): jsPDF {
     drawPattern(pdf, 0, 148.5, options.config);
     drawPattern(pdf, 105, 148.5, options.config);
 
-    pdf.setDrawColor('#cccccc');
-    pdf.setLineWidth(0.3);
-    pdf.setLineDash([2, 2]);
-    pdf.line(105, 0, 105, 297);
-    pdf.line(0, 148.5, 210, 148.5);
-    pdf.setLineDash([]);
+    if (options.showCuttingRulers ?? true) {
+      pdf.setDrawColor('#cccccc');
+      pdf.setLineWidth(0.3);
+      pdf.setLineDash([2, 2]);
+      pdf.line(105, 0, 105, 297);
+      pdf.line(0, 148.5, 210, 148.5);
+      pdf.setLineDash([]);
+    }
   }
 
   return pdf;

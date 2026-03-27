@@ -6,6 +6,7 @@ import { generatePDF } from '../utils/pdfGenerator';
 export default function PatternForm() {
   const [patternType, setPatternType] = useState<PatternType>('lines');
   const [numberOfPages, setNumberOfPages] = useState(1);
+  const [showCuttingRulers, setShowCuttingRulers] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleGenerate = async () => {
@@ -16,6 +17,7 @@ export default function PatternForm() {
       const pdf = generatePDF({
         numberOfPages,
         config,
+        showCuttingRulers,
       });
 
       pdf.save(`blocknote-${patternType}-${numberOfPages}pages.pdf`);
@@ -76,6 +78,16 @@ export default function PatternForm() {
             Each A4 page contains 4 A6 sheets
           </p>
         </div>
+
+        <label className="flex items-center gap-2 text-sm text-gray-700 select-none">
+          <input
+            type="checkbox"
+            checked={showCuttingRulers}
+            onChange={(e) => setShowCuttingRulers(e.target.checked)}
+            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          />
+          <span>Show cutting rulers</span>
+        </label>
 
         <button
           onClick={handleGenerate}
