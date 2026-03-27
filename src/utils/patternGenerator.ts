@@ -9,7 +9,8 @@ export function drawPattern(
   pdf: jsPDF,
   x: number,
   y: number,
-  config: PatternConfig
+  config: PatternConfig,
+  options: { drawSheetBorder?: boolean } = {}
 ) {
   const width = A6_WIDTH;
   const height = A6_HEIGHT;
@@ -31,9 +32,11 @@ export function drawPattern(
       break;
   }
 
-  pdf.setDrawColor('#000000');
-  pdf.setLineWidth(0.1);
-  pdf.rect(x, y, width, height);
+  if (options.drawSheetBorder ?? true) {
+    pdf.setDrawColor('#000000');
+    pdf.setLineWidth(0.1);
+    pdf.rect(x, y, width, height);
+  }
 }
 
 function drawLines(

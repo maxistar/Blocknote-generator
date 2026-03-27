@@ -20,12 +20,15 @@ export function generatePDF(options: GenerateOptions): jsPDF {
       pdf.addPage();
     }
 
-    drawPattern(pdf, 0, 0, options.config);
-    drawPattern(pdf, 105, 0, options.config);
-    drawPattern(pdf, 0, 148.5, options.config);
-    drawPattern(pdf, 105, 148.5, options.config);
+    const showCuttingRulers = options.showCuttingRulers ?? true;
 
-    if (options.showCuttingRulers ?? true) {
+    drawPattern(pdf, 0, 0, options.config, { drawSheetBorder: showCuttingRulers });
+    drawPattern(pdf, 105, 0, options.config, { drawSheetBorder: showCuttingRulers });
+    drawPattern(pdf, 0, 148.5, options.config, { drawSheetBorder: showCuttingRulers });
+    drawPattern(pdf, 105, 148.5, options.config, { drawSheetBorder: showCuttingRulers });
+
+
+    if (showCuttingRulers) {
       pdf.setDrawColor('#cccccc');
       pdf.setLineWidth(0.3);
       pdf.setLineDash([2, 2]);
