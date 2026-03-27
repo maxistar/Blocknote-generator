@@ -149,9 +149,9 @@ function drawCrosses(
   config: PatternConfig
 ) {
   const spacing = config.spacing; // distance between centers (7 mm)
-  const halfHorizontal = spacing * 0.35; // slightly shorter than spacing
-  const halfVertical = spacing * 0.35;
-  const slantOffset = spacing * 0.12; // slight right tilt for vertical stroke
+  const halfHorizontal = spacing * 0.175; // 2x shorter than before
+  const halfVertical = spacing * 0.175;
+  const slantOffset = spacing * 0.12; // slight left tilt for vertical stroke
 
   const startX = x + MARGIN + spacing / 2;
   const startY = y + MARGIN + spacing / 2;
@@ -166,11 +166,11 @@ function drawCrosses(
       // Horizontal stroke
       pdf.line(cx - halfHorizontal, cy, cx + halfHorizontal, cy);
 
-      // Slightly slanted vertical stroke (leaning right)
+      // Slightly slanted vertical stroke (leaning left)
       pdf.line(
-        cx - slantOffset,
-        cy - halfVertical,
         cx + slantOffset,
+        cy - halfVertical,
+        cx - slantOffset,
         cy + halfVertical
       );
     }
