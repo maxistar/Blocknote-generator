@@ -28,6 +28,9 @@ export function drawPattern(
     case 'dots':
       drawDots(pdf, x, y, width, height, config);
       break;
+    case 'kanji':
+      drawKanjiGrid(pdf, x, y, width, height, config);
+      break;
     case 'blank':
       break;
   }
@@ -93,5 +96,43 @@ function drawDots(
       currentX += config.spacing;
     }
     currentY += config.spacing;
+  }
+}
+
+function drawKanjiGrid(
+  pdf: jsPDF,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  config: PatternConfig
+) {
+  const cell = config.spacing;
+  const startX = x + MARGIN;
+  const startY = y + MARGIN;
+  const endX = x + width - MARGIN;
+  const endY = y + height - MARGIN;
+
+  // Outer square grid
+  pdf.setDrawColor(config.color);
+  pdf.setLineWidth(config.lineWidth);
+
+  for (let rowY = startY; rowY + cell <= endY; rowY += cell) {
+    for (let colX = startX; colX + cell <= endX; colX += cell) {
+      pdf.rect(colX, rowY, cell, cell);
+    }
+  }
+
+  // Center guides inside each square (lighter)
+  pdf.setDrawColor('#e7e7e7');
+  pdf.setLineWidth(Math.max(0.1, config.lineWidth * 0.8));
+
+  for (let rowY = startY; rowY + cell <= endY; rowY += cell) {
+    for (let colX = startX; colX + cell <= endX; colX += cell) {
+      const cx = colX + cell / 2;
+      const cy = rowY + cell / 2;
+      pdf.line(cx, rowY, cx, rowY + cell);
+      pdf.line(colX, cy, colX + cell, cy);
+    }
   }
 }

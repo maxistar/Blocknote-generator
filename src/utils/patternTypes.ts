@@ -1,4 +1,4 @@
-export type PatternType = 'lines' | 'grid' | 'dots' | 'blank';
+export type PatternType = 'lines' | 'grid' | 'dots' | 'blank' | 'kanji';
 
 export interface PatternConfig {
   type: PatternType;
@@ -31,5 +31,11 @@ export const defaultConfigs: Record<PatternType, PatternConfig> = {
     spacing: 0,
     color: '#ffffff',
     lineWidth: 0,
+  },
+  kanji: {
+    type: 'kanji',
+    spacing: 10,
+    color: '#cfcfcf',
+    lineWidth: 0.2,
   },
 };

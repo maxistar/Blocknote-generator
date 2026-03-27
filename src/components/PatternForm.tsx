@@ -53,6 +53,7 @@ export default function PatternForm() {
             <option value="grid">Grid (Squares)</option>
             <option value="dots">Dots (Dot Grid)</option>
             <option value="blank">Blank</option>
+            <option value="kanji">Kanji Practice (Genkō style)</option>
           </select>
         </div>
 
