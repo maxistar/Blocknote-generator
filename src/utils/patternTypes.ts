@@ -1,4 +1,4 @@
-export type PatternType = 'lines' | 'grid' | 'dots' | 'blank' | 'kanji';
+export type PatternType = 'lines' | 'grid' | 'dots' | 'blank' | 'kanji' | 'crosses';
 
 export interface PatternConfig {
   type: PatternType;
@@ -37,5 +37,11 @@ export const defaultConfigs: Record<PatternType, PatternConfig> = {
     spacing: 10,
     color: '#cfcfcf',
     lineWidth: 0.2,
+  },
+  crosses: {
+    type: 'crosses',
+    spacing: 7,
+    color: '#c7c7c7',
+    lineWidth: 0.18,
   },
 };

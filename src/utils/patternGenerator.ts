@@ -31,6 +31,9 @@ export function drawPattern(
     case 'kanji':
       drawKanjiGrid(pdf, x, y, width, height, config);
       break;
+    case 'crosses':
+      drawCrosses(pdf, x, y, width, height, config);
+      break;
     case 'blank':
       break;
   }
@@ -133,6 +136,43 @@ function drawKanjiGrid(
       const cy = rowY + cell / 2;
       pdf.line(cx, rowY, cx, rowY + cell);
       pdf.line(colX, cy, colX + cell, cy);
+    }
+  }
+}
+
+function drawCrosses(
+  pdf: jsPDF,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  config: PatternConfig
+) {
+  const spacing = config.spacing; // distance between centers (7 mm)
+  const halfHorizontal = spacing * 0.35; // slightly shorter than spacing
+  const halfVertical = spacing * 0.35;
+  const slantOffset = spacing * 0.12; // slight right tilt for vertical stroke
+
+  const startX = x + MARGIN + spacing / 2;
+  const startY = y + MARGIN + spacing / 2;
+  const endX = x + width - MARGIN - spacing / 2;
+  const endY = y + height - MARGIN - spacing / 2;
+
+  pdf.setDrawColor(config.color);
+  pdf.setLineWidth(config.lineWidth);
+
+  for (let cy = startY; cy <= endY; cy += spacing) {
+    for (let cx = startX; cx <= endX; cx += spacing) {
+      // Horizontal stroke
+      pdf.line(cx - halfHorizontal, cy, cx + halfHorizontal, cy);
+
+      // Slightly slanted vertical stroke (leaning right)
+      pdf.line(
+        cx - slantOffset,
+        cy - halfVertical,
+        cx + slantOffset,
+        cy + halfVertical
+      );
     }
   }
 }
