@@ -1,11 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-const basePath = process.env.BASE_PATH || '/';
-
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: basePath,
+  // Relative asset paths so build works both at domain root and subpaths.
+  base: './',
   plugins: [react()],
   optimizeDeps: {
     exclude: ['lucide-react'],
