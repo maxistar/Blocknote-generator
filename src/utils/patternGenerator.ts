@@ -151,7 +151,7 @@ function drawCrosses(
   const spacing = config.spacing; // distance between centers (7 mm)
   const halfHorizontal = spacing * 0.175; // 2x shorter than before
   const halfVertical = spacing * 0.175;
-  const slantOffset = spacing * 0.12; // slight left tilt for vertical stroke
+  const slantOffset = spacing * 0.06; // reduced left tilt
 
   const startX = x + MARGIN + spacing / 2;
   const startY = y + MARGIN + spacing / 2;
