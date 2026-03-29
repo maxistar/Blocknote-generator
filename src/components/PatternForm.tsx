@@ -1,23 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FileDown, Loader2 } from 'lucide-react';
-import { PatternType, defaultConfigs } from '../utils/patternTypes';
+import { PatternConfig, PatternType, defaultConfigs } from '../utils/patternTypes';
 import { generatePDF } from '../utils/pdfGenerator';
 
 export default function PatternForm() {
   const [patternType, setPatternType] = useState<PatternType>('lines');
   const [numberOfPages, setNumberOfPages] = useState(1);
-  const [showCuttingRulers, setShowCuttingRulers] = useState(true);
+  const [config, setConfig] = useState<PatternConfig>(defaultConfigs.lines);
+  const [dividerColor, setDividerColor] = useState('#cccccc');
   const [isGenerating, setIsGenerating] = useState(false);
+
+  useEffect(() => {
+    setConfig(defaultConfigs[patternType]);
+  }, [patternType]);
 
   const handleGenerate = async () => {
     setIsGenerating(true);
 
     try {
-      const config = defaultConfigs[patternType];
       const pdf = generatePDF({
         numberOfPages,
         config,
-        showCuttingRulers,
+        dividerColor,
       });
 
       pdf.save(`blocknote-${patternType}-${numberOfPages}pages.pdf`);
@@ -58,6 +62,74 @@ export default function PatternForm() {
           </select>
         </div>
 
+        {patternType === 'lines' && (
+          <div>
+            <label
+              htmlFor="line-spacing"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Line spacing (mm)
+            </label>
+            <input
+              id="line-spacing"
+              type="number"
+              min="3"
+              max="20"
+              step="0.5"
+              value={config.spacing}
+              onChange={(e) =>
+                setConfig((prev) => ({
+                  ...prev,
+                  spacing: Math.max(3, parseFloat(e.target.value) || prev.spacing),
+                }))
+              }
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+            />
+          </div>
+        )}
+
+        {patternType !== 'blank' && (
+          <div>
+            <label
+              htmlFor="pattern-color"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Pattern color
+            </label>
+            <input
+              id="pattern-color"
+              type="color"
+              value={config.color}
+              onChange={(e) =>
+                setConfig((prev) => ({
+                  ...prev,
+                  color: e.target.value,
+                }))
+              }
+              className="h-10 w-20 border border-gray-300 rounded cursor-pointer"
+            />
+          </div>
+        )}
+
+        <div>
+          <label
+            htmlFor="divider-color"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Divider color
+          </label>
+          <input
+            id="divider-color"
+            type="color"
+            value={dividerColor}
+            onChange={(e) => setDividerColor(e.target.value)}
+            className="h-10 w-20 border border-gray-300 rounded cursor-pointer"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Divider lines are always shown and are independent from the pattern.
+          </p>
+        </div>
+
         <div>
           <label
             htmlFor="number-of-pages"
@@ -80,16 +152,6 @@ export default function PatternForm() {
             Each A4 page contains 4 A6 sheets
           </p>
         </div>
-
-        <label className="flex items-center gap-2 text-sm text-gray-700 select-none">
-          <input
-            type="checkbox"
-            checked={showCuttingRulers}
-            onChange={(e) => setShowCuttingRulers(e.target.checked)}
-            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-          />
-          <span>Show cutting rulers</span>
-        </label>
 
         <button
           onClick={handleGenerate}
@@ -116,6 +178,7 @@ export default function PatternForm() {
         </h3>
         <ol className="text-xs text-blue-700 space-y-1 list-decimal list-inside">
           <li>Select your preferred pattern type</li>
+          <li>Adjust pattern/divider settings</li>
           <li>Choose the number of A4 pages to print</li>
           <li>Click "Generate PDF" to download</li>
           <li>Print the PDF on A4 paper</li>

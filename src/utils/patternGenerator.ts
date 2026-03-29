@@ -10,7 +10,7 @@ export function drawPattern(
   x: number,
   y: number,
   config: PatternConfig,
-  options: { drawSheetBorder?: boolean } = {}
+  options: { drawSheetBorder?: boolean; borderColor?: string } = {}
 ) {
   const width = A6_WIDTH;
   const height = A6_HEIGHT;
@@ -39,7 +39,7 @@ export function drawPattern(
   }
 
   if (options.drawSheetBorder ?? true) {
-    pdf.setDrawColor('#000000');
+    pdf.setDrawColor(options.borderColor ?? '#000000');
     pdf.setLineWidth(0.1);
     pdf.rect(x, y, width, height);
   }
