@@ -6,6 +6,7 @@ export interface GenerateOptions {
   numberOfPages: number;
   config: PatternConfig;
   dividerColor?: string;
+  showCuttingRulers?: boolean;
 }
 
 export function generatePDF(options: GenerateOptions): jsPDF {
@@ -21,19 +22,33 @@ export function generatePDF(options: GenerateOptions): jsPDF {
     }
 
     const dividerColor = options.dividerColor ?? '#cccccc';
+    const showCuttingRulers = options.showCuttingRulers ?? true;
 
-    drawPattern(pdf, 0, 0, options.config, { borderColor: dividerColor });
-    drawPattern(pdf, 105, 0, options.config, { borderColor: dividerColor });
-    drawPattern(pdf, 0, 148.5, options.config, { borderColor: dividerColor });
-    drawPattern(pdf, 105, 148.5, options.config, { borderColor: dividerColor });
+    drawPattern(pdf, 0, 0, options.config, {
+      drawSheetBorder: showCuttingRulers,
+      borderColor: dividerColor,
+    });
+    drawPattern(pdf, 105, 0, options.config, {
+      drawSheetBorder: showCuttingRulers,
+      borderColor: dividerColor,
+    });
+    drawPattern(pdf, 0, 148.5, options.config, {
+      drawSheetBorder: showCuttingRulers,
+      borderColor: dividerColor,
+    });
+    drawPattern(pdf, 105, 148.5, options.config, {
+      drawSheetBorder: showCuttingRulers,
+      borderColor: dividerColor,
+    });
 
-    // Dividers are always visible and independent from pattern settings.
-    pdf.setDrawColor(dividerColor);
-    pdf.setLineWidth(0.3);
-    pdf.setLineDash([2, 2]);
-    pdf.line(105, 0, 105, 297);
-    pdf.line(0, 148.5, 210, 148.5);
-    pdf.setLineDash([]);
+    if (showCuttingRulers) {
+      pdf.setDrawColor(dividerColor);
+      pdf.setLineWidth(0.3);
+      pdf.setLineDash([2, 2]);
+      pdf.line(105, 0, 105, 297);
+      pdf.line(0, 148.5, 210, 148.5);
+      pdf.setLineDash([]);
+    }
   }
 
   return pdf;

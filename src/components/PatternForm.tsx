@@ -8,6 +8,7 @@ export default function PatternForm() {
   const [numberOfPages, setNumberOfPages] = useState(1);
   const [config, setConfig] = useState<PatternConfig>(defaultConfigs.lines);
   const [dividerColor, setDividerColor] = useState('#cccccc');
+  const [showCuttingRulers, setShowCuttingRulers] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function PatternForm() {
         numberOfPages,
         config,
         dividerColor,
+        showCuttingRulers,
       });
 
       pdf.save(`blocknote-${patternType}-${numberOfPages}pages.pdf`);
@@ -111,10 +113,20 @@ export default function PatternForm() {
           </div>
         )}
 
+        <label className="flex items-center gap-2 text-sm text-gray-700 select-none">
+          <input
+            type="checkbox"
+            checked={showCuttingRulers}
+            onChange={(e) => setShowCuttingRulers(e.target.checked)}
+            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          />
+          <span>Show cutting rulers</span>
+        </label>
+
         <div>
           <label
             htmlFor="divider-color"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className={`block text-sm font-medium mb-2 ${showCuttingRulers ? 'text-gray-700' : 'text-gray-400'}`}
           >
             Divider color
           </label>
@@ -123,10 +135,11 @@ export default function PatternForm() {
             type="color"
             value={dividerColor}
             onChange={(e) => setDividerColor(e.target.value)}
-            className="h-10 w-20 border border-gray-300 rounded cursor-pointer"
+            disabled={!showCuttingRulers}
+            className={`h-10 w-20 border border-gray-300 rounded ${showCuttingRulers ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'}`}
           />
           <p className="text-xs text-gray-500 mt-1">
-            Divider lines are always shown and are independent from the pattern.
+            Divider color is active only when cutting rulers are enabled.
           </p>
         </div>
 
