@@ -40,6 +40,17 @@ function App() {
               printables.com/model/1436723-a6-printed-notebook
             </a>
           </p>
+          <p>
+            Feature missing?{' '}
+            <a
+              href="https://github.com/maxistar/Blocknote-generator/issues"
+              target="_blank"
+              rel="noreferrer"
+              className="text-blue-600 hover:text-blue-700 underline"
+            >
+              Add feature request!
+            </a>
+          </p>
         </footer>
       </div>
     </div>
