@@ -1,5 +1,6 @@
 import { BookOpen } from 'lucide-react';
 import PatternForm from './components/PatternForm';
+import Cover3DPreview from './components/Cover3DPreview';
 
 function App() {
   return (
@@ -18,8 +19,9 @@ function App() {
           </p>
         </header>
 
-        <main className="flex justify-center">
+        <main className="flex flex-col items-center">
           <PatternForm />
+          <Cover3DPreview />
         </main>
 
         <footer className="text-center mt-16 text-gray-500 text-sm space-y-3">
